@@ -1,6 +1,7 @@
 package com.tt1.test;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Servicio {
@@ -20,15 +21,43 @@ public class Servicio {
         this.repo.almacenarToDo(nuevaTarea);
     }
     public void agregarEmail(String email) {
-        throw new UnsupportedOperationException("Clase aún no implementada.");
+        if (email != null && email.contains("@")) { 
+            this.repo.almacenarEmail(email);
+        } else {
+            throw new IllegalArgumentException("Email no válido");
+        }
     }
+
     public void finalizarTarea(String nombre) {
-        throw new UnsupportedOperationException("Clase aún no implementada.");
+        this.repo.marcarCompletado(nombre);
+        verificarYAlertarExpiradas();
     }
+
     public List<ToDo> consultarPendientes() {
-        throw new UnsupportedOperationException("Clase aún no implementada.");
+        List<ToDo> todas = this.repo.obtenerTodas();
+        List<ToDo> pendientes = new ArrayList<>();
+        
+        for (ToDo t : todas) {
+            if (!t.getCompletado()) { 
+                pendientes.add(t);
+            }
+        }
+        verificarYAlertarExpiradas();
+        return pendientes;
     }
+
     public void verificarYAlertarExpiradas() {
-        throw new UnsupportedOperationException("Clase aún no implementada.");
+        List<ToDo> todas = this.repo.obtenerTodas();
+        List<String> emails = this.repo.obtenerEmails();
+        LocalDate hoy = LocalDate.now();
+
+        for (ToDo t : todas) {
+            
+            if (!t.getCompletado() && t.getFechaLimite().isBefore(hoy)) {
+                for (String email : emails) {
+                    this.mailer.enviarCorreo(email, "¡Alerta! La tarea '" + t.getNombre() + "' ha expirado.");
+                }
+            }
+        }
     }
 }

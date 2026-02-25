@@ -1,5 +1,7 @@
 package com.tt1.test;
 
+import java.util.List;
+
 public class Repositorio {
 	private DBStub db;
 
@@ -7,16 +9,28 @@ public class Repositorio {
         this.db = db;
     }
 
-    public void almacenarToDo(ToDo todo) {
-    	this.db.guardarTarea(todo);
-    	}
     public ToDo encontrarToDo(String nombre) {
-        throw new UnsupportedOperationException("Clase aún no implementada.");
+        return this.db.buscarTarea(nombre);
     }
+
     public void marcarCompletado(String nombre) {
-        throw new UnsupportedOperationException("Clase aún no implementada.");
+        ToDo tarea = this.db.buscarTarea(nombre);
+        if (tarea != null) {
+            tarea.setCompletado(true);
+        }
     }
+
     public void almacenarEmail(String email) {
-        throw new UnsupportedOperationException("Clase aún no implementada.");
+        this.db.guardarEmail(email);
+    }
+    
+    public List<ToDo> obtenerTodas() {
+        return this.db.obtenerTodasLasTareas();
+    }
+    public List<String> obtenerEmails() {
+        return this.db.obtenerEmails();
+    }
+    public void almacenarToDo(ToDo t) {
+        this.db.guardarTarea(t);
     }
 }
