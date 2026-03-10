@@ -1,0 +1,34 @@
+name: Generar y Publicar Javadoc
+
+# 1. ¿Cuándo se ejecuta este robot? Cuando hacemos un push a la rama 'stable'
+on:
+    push:
+        branches:
+            - stable
+
+# Permisos necesarios para publicar en GitHub Pages
+permissions:
+    contents: write
+
+jobs:
+    build-and-deploy:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Descargar el código del repositorio
+              uses: actions/checkout@v3
+
+            - name: Preparar Java 17
+              uses: actions/setup-java@v3
+              with:
+                  java-version: '17'
+                  distribution: 'temurin'
+
+            - name: Generar Javadoc
+
+              run: javadoc -d docs src/**/*.java
+
+            - name: Publicar en GitHub Pages
+              uses: peaceiris/actions-gh-pages@v3
+              with:
+                  github_token: ${{ secrets.GITHUB_TOKEN }}
+                  publish_dir: ./docs # Sube la carpeta docs que acabamos de crear
