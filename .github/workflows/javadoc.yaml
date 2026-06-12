@@ -1,12 +1,10 @@
 name: Generar y Publicar Javadoc
 
-# 1. ¿Cuándo se ejecuta este robot? Cuando hacemos un push a la rama 'stable'
 on:
     push:
         branches:
             - stable
 
-# Permisos necesarios para publicar en GitHub Pages
 permissions:
     contents: write
 
@@ -24,12 +22,10 @@ jobs:
                   distribution: 'temurin'
 
             - name: Generar Javadoc
-                # ¡OJO A ESTA LÍNEA! Debes ajustar la ruta de tus archivos .java
-                # Este comando busca todos los .java dentro de la carpeta src/ y los compila en la carpeta 'docs'
               run: javadoc -d docs src/**/*.java
 
             - name: Publicar en GitHub Pages
               uses: peaceiris/actions-gh-pages@v3
               with:
                   github_token: ${{ secrets.GITHUB_TOKEN }}
-                  publish_dir: ./docs # Sube la carpeta docs que acabamos de crear
+                  publish_dir: ./docs
