@@ -1,4 +1,4 @@
-name: Generar y Publicar Javadoc
+name: Javadoc
 
 on:
     push:
@@ -12,7 +12,7 @@ jobs:
     build-and-deploy:
         runs-on: ubuntu-latest
         steps:
-            - name: Descargar el código del repositorio
+            - name: Descargar el código
               uses: actions/checkout@v3
 
             - name: Preparar Java 17
@@ -21,7 +21,7 @@ jobs:
                   java-version: '17'
                   distribution: 'temurin'
 
-            - name: Generar Javadoc
+            - name: Generar 
               run: javadoc -d docs src/**/*.java
 
             - name: Publicar en GitHub Pages
