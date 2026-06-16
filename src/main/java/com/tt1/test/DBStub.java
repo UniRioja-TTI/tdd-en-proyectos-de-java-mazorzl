@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class DBStub {
     private List<ToDo> tareas = new ArrayList<>();
-    private List<String> agendaEmails = new ArrayList<>();
+    private List<String> agendaEmail = new ArrayList<>();
 
     /**
      * Guarda una nueva tarea en la base de datos simulada.
@@ -38,7 +38,7 @@ public class DBStub {
      * * @param email La dirección de correo a almacenar.
      */
     public void guardarEmail(String email) {
-        this.agendaEmails.add(email);
+        this.agendaEmail.add(email);
     }
 
     /**
@@ -46,7 +46,7 @@ public class DBStub {
      * * @return Una lista de cadenas de texto (String) con los emails.
      */
     public List<String> obtenerEmails() {
-        return this.agendaEmails;
+        return this.agendaEmail;
     }
 
     /**
